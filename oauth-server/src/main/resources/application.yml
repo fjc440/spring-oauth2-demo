@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: oauth-server-dev
+server:
+  port: 8882
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8881/eureka/
+security:
+  oauth2:
+    resource:
+      id: oauth-server-dev
+
