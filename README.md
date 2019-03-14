@@ -103,106 +103,6 @@
 
 
 </project>
-
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45
-46
-47
-48
-49
-50
-51
-52
-53
-54
-55
-56
-57
-58
-59
-60
-61
-62
-63
-64
-65
-66
-67
-68
-69
-70
-71
-72
-73
-74
-75
-76
-77
-78
-79
-80
-81
-82
-83
-84
-85
-86
-87
-88
-89
-90
-91
-92
-93
-94
-95
-96
-97
-98
-99
 2.OAuthSecurityConfig
 
 @Configuration
@@ -257,89 +157,37 @@ public class OAuthSecurityConfig extends AuthorizationServerConfigurerAdapter {
         return converter;
     }
 }
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45
-46
-47
-48
-49
-50
-51
-52
 
 注解开启校验服务器
 2.1OAuthSecurityConfig继承AuthorizationServerConfigurerAdapter
-AuthorizationServerConfigurerAdapter内主要有三个方法
+    AuthorizationServerConfigurerAdapter内主要有三个方法
 
 2.1.1
 ClientDetailsServiceConfigurer（客户端信息设置）
-.inMemory():用内存方式保存client信息；
-.withClient()：规定client名称；
-.secret()：规定client的secret;
-.scopes():规定客户端的作用域；
-.autoApprove(true)：授权码模式下是否需要跳转到验证页面去授权;
-.authorities():客户端拥有的权限；
-.authorizedGrantTypes：指定客户端支持的grant_type,可选值包括 authorization_code,password,refresh_token,implicit,client_credentials, 若支持多个grant_type用逗号(,)分隔,如: “authorization_code,password”. 在实际应用中,当注册时,该字段是一般由服务器端指定的,而不是由申请者去选择的,最常用的grant_type组合有: “authorization_code,refresh_token”(针对通过浏览器访问的客户端); “password,refresh_token”(针对移动设备的客户端)
+    .inMemory():用内存方式保存client信息；
+    .withClient()：规定client名称；
+    .secret()：规定client的secret;
+    .scopes():规定客户端的作用域；
+    .autoApprove(true)：授权码模式下是否需要跳转到验证页面去授权;
+    .authorities():客户端拥有的权限；
+    .authorizedGrantTypes：指定客户端支持的grant_type,可选值包括 authorization_code,password,refresh_token,implicit,client_credentials, 若支持多个grant_type用逗号(,)分隔,如: “authorization_code,password”. 在实际应用中,当注册时,该字段是一般由服务器端指定的,而不是由申请者去选择的,最常用的grant_type组合有: “authorization_code,refresh_token”(针对通过浏览器访问的客户端); “password,refresh_token”(针对移动设备的客户端)
 2.1.2
 AuthorizationServerEndpointsConfigurer
-用来配置授权（authorization）以及令牌（token）的访问端点和令牌服务(token services)，还有token的存储方式(tokenStore)。
-.tokenStore(tokenStore):token的存储方式;
-.tokenEnhancer:生成自定义令牌；
-.authenticationManager:认证管理器;
-allowedTokenEndpointRequestMethods(HttpMethod.POST,HttpMethod.GET)：支持post和get方式来访问/oauth/token来获取token，oauth2里面默认只能使用post方式来获取token；
+ 用来配置授权（authorization）以及令牌（token）的访问端点和令牌服务(token services)，还有token的存储方式(tokenStore)。
+    .tokenStore(tokenStore):token的存储方式;
+    .tokenEnhancer:生成自定义令牌；
+    .authenticationManager:认证管理器;
+    allowedTokenEndpointRequestMethods(HttpMethod.POST,HttpMethod.GET)：支持post和get方式来访问/oauth/token来获取token，oauth2里面默认只能使用post方式来获取token；
 2.1.3
 AuthorizationServerSecurityConfigurer
-用来配置令牌端点(Token Endpoint)的安全约束。
-oauthServer.allowFormAuthenticationForClients()：允许表单提交；
+ 用来配置令牌端点(Token Endpoint)的安全约束。
+    oauthServer.allowFormAuthenticationForClients()：允许表单提交；
 2.1.4
 jwtAccessTokenConverter()
-自定义JWT的token
-关于什么是jwttoken的传送门在这里
-https://www.cnblogs.com/yan7/p/7857833.html
-用keytool的方法生成jwt证书文件test-jwt，放在项目的根目录下面，另外生成公钥public.cert存放在资源服务器根目录下，根据JwtAccessTokenConverter里面的setKeyPair里面的RSA非对称加密来进行证书的校验。
+ 自定义JWT的token
+    关于什么是jwttoken的传送门在这里
+    https://www.cnblogs.com/yan7/p/7857833.html
+    用keytool的方法生成jwt证书文件test-jwt，放在项目的根目录下面，另外生成公钥public.cert存放在资源服务器根目录下，根据JwtAccessTokenConverter里面的setKeyPair里面的RSA非对称加密来进行证书的校验。
 3.OAuthWebConfig
 
 @Configuration
@@ -376,49 +224,16 @@ public class OAuthWebConfig extends WebSecurityConfigurerAdapter {
 
 
 }
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
+
 @EnableWebSecurity
 注解开启web的安全验证
 3.1
-InMemoryUserDetailsManager：将用户的信息储存在内存中；
+    InMemoryUserDetailsManager：将用户的信息储存在内存中；
 3.2
-protected void configure(HttpSecurity http) throws Exception：关于http的安全校验
+    protected void configure(HttpSecurity http) throws Exception：关于http的安全校验
 3.2.1
-.antMatchers("/oauth/**").permitAll():/oauth/开头的请求路径不用通过鉴权；
-http.formLogin()：支持表单登录；
+    .antMatchers("/oauth/**").permitAll():/oauth/开头的请求路径不用通过鉴权；
+    http.formLogin()：支持表单登录；
 4.启用类
 
 @SpringBootApplication
@@ -432,17 +247,7 @@ public class AuthServerApplication {
 
 
 }
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
+
 5.application.yml
 
 spring:
@@ -458,19 +263,7 @@ security:
   oauth2:
     resource:
       id: oauth-server-dev
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
+
 鉴权服务到此就简单的搭建完成了，我们来简单测试一下。
 依次启动eureka-server,oauth-server;
 
@@ -494,29 +287,15 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
     }
 }
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
+
 ResourceServerConfiguration继承了ResourceServerConfigurerAdapter
 
 这里也有对应的两个个方法可以重写
 1.1
-configure(ResourceServerSecurityConfigurer resources)：用来自己装配关于资源的拓展信息（如：resourceId等）；
+    configure(ResourceServerSecurityConfigurer resources)：用来自己装配关于资源的拓展信息（如：resourceId等）；
 1.2
-configure(HttpSecurity http)：关请求的拓展装配；
-.antMatchers("/**").authenticated()：设置需鉴权的路径；
+    configure(HttpSecurity http)：关请求的拓展装配；
+    .antMatchers("/**").authenticated()：设置需鉴权的路径；
 2.JWTtoken解析类
 
 @Configuration
@@ -549,36 +328,6 @@ public class JwtConfig {
         return converter;
     }
 }
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
 这里按照上面提过的，用服务端生成的证书所生成的公钥来进行验证。
 3.application.yml
 
@@ -601,30 +350,11 @@ security:
       grant-type: password
       scope: read
       user-authorization-uri: http://localhost:8882/oauth/authorize
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
 3.1
-security.oauth2.resource.jwt.key:向鉴权服务去验证jwttoken有效性的地址；
-security.oauth2.client:配置我们刚才在内存里面储存的客户端信息；
-security.oauth2.client.access-token-uri:获取token的路径；
-security.oauth2. user-authorization-uri：获得授权路径；
+    security.oauth2.resource.jwt.key:向鉴权服务去验证jwttoken有效性的地址；
+    security.oauth2.client:配置我们刚才在内存里面储存的客户端信息；
+    security.oauth2.client.access-token-uri:获取token的路径；
+    security.oauth2. user-authorization-uri：获得授权路径；
 
 4.然后写一个测试类输出数据
 
@@ -640,23 +370,5 @@ public class TestController{
     }
 
 }
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-然后我们依次启动eureka-server，oauth-server，resource-server来测试一下。
-首先还是通过上面讲过的方式来获取token，
-然后我们先用没有携带token的请求来请求资源服务试试看
 
-我们可以看到访问被拒绝了。
-下面我们再用携带了token的请求来请求试试看
-
-OK，完美成功。到此springOAuth2的简单验证流程就算是成功了.
+ 
