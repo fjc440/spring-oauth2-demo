@@ -22,6 +22,6 @@ security:
     resource:
       jwt:
         key-uri: http://localhost:8882/oauth/token_key
-
+      id: resource-server
 
 
