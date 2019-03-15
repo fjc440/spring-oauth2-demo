@@ -14,22 +14,17 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter {
 
-    @Autowired
-    private TokenStore tokenStore;
+
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-//        http.authorizeRequests()
-//                .antMatchers("/order/**").authenticated(); // 配置order访问控制，必须认证后才可以访问
-
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/product/**","/registry/**", "/user/login/**").permitAll()
+                .antMatchers("/registry/**").permitAll()
                 .antMatchers("/**").authenticated();
     }
 
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
-        resources.tokenStore(tokenStore);
     }
 }

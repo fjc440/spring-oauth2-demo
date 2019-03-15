@@ -17,7 +17,7 @@ public class UserServiceImpl implements UserService {
     public User create(String username, String password) {
         User user = new User();
         user.setUsername(username);
-        password = "{bcrypt}" + passwordEncoder.encode(password);
+        password =  passwordEncoder.encode(password);
         user.setPassword(password);
         User u = userDao.save(user);
         return u;
