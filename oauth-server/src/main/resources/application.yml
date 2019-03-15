@@ -1,6 +1,6 @@
 spring:
   application:
-    name: oauth-server-dev
+    name: oauth-server
 
   datasource:
       driver-class-name: com.mysql.jdbc.Driver
@@ -18,15 +18,15 @@ spring:
 #    database: 1
 
 server:
-  port: 8890
+  port: 8882
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761//eureka/
+      defaultZone: http://localhost:8881//eureka/
 security:
   oauth2:
     resource:
-      id: oauth-server-dev
+      id: oauth-server
 #使用spring-security的拦截器
 #security:
 #  oauth2:

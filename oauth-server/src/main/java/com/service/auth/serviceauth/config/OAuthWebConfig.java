@@ -33,7 +33,6 @@ public class OAuthWebConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
-//        return  new Md5PasswordEncoder();
     }
 
 
@@ -50,7 +49,7 @@ public class OAuthWebConfig extends WebSecurityConfigurerAdapter {
         http.requestMatchers().anyRequest()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/oauth/**","/oauth/authorize").permitAll();
+                .antMatchers("/oauth/**").permitAll();
         http.formLogin();
     }
 
