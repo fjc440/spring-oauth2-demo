@@ -10,8 +10,8 @@ spring:
   datasource:
       driver-class-name: com.mysql.jdbc.Driver
       url: jdbc:mysql://121.42.238.128/oauth2?useUnicode=true&characterEncoding=utf8&characterSetResults=utf8
-      username: hotel
-      password: internet
+      username: 123
+      password: 123456
 
   jpa:
     hibernate:
