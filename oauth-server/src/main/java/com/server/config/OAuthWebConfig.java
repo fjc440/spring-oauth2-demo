@@ -1,12 +1,11 @@
-package com.service.auth.serviceauth.config;
+package com.server.config;
 
-import com.service.auth.serviceauth.dto.UserServiceDetail;
+
+import com.server.dto.UserServiceDetail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -17,7 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 
 /** 
-* @Description: 
+* @Description: webConfig
 * @param:
 * @return: 
 * @author: fanjc
@@ -33,7 +32,6 @@ public class OAuthWebConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
-//        return  new Md5PasswordEncoder();
     }
 
 
@@ -46,11 +44,12 @@ public class OAuthWebConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable();
+//        http.csrf().disable();
         http.requestMatchers().anyRequest()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/oauth/**","/oauth/authorize").permitAll();
+                .antMatchers("/oauth/**").permitAll();
+        //支持表单登录
         http.formLogin();
     }
 
@@ -59,7 +58,7 @@ public class OAuthWebConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userServiceDetail).passwordEncoder(new BCryptPasswordEncoder());
+        auth.userDetailsService(userServiceDetail).passwordEncoder(passwordEncoder());
     }
 
 }

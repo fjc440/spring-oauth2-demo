@@ -1,4 +1,4 @@
-package com.service.auth.serviceauth.dto;
+package com.server.dto;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

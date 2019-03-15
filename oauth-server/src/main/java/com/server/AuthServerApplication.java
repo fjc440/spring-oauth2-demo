@@ -1,4 +1,4 @@
-package com.service.auth.serviceauth;
+package com.server;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -8,10 +8,10 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 @SpringBootApplication
 @EnableResourceServer
 @EnableEurekaClient
-public class ServiceAuthApplication {
+public class AuthServerApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(ServiceAuthApplication.class, args);
+        SpringApplication.run(AuthServerApplication.class, args);
     }
 
 

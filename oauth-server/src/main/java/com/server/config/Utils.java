@@ -1,4 +1,4 @@
-package com.service.auth.serviceauth.config;
+package com.server.config;
 
 public class Utils {
     public static class RESOURCEIDS {

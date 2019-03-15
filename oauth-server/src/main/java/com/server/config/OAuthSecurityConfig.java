@@ -1,5 +1,7 @@
-package com.service.auth.serviceauth.config;
+package com.server.config;
 
+
+import com.server.filter.JiheBasicAuthenticationFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,24 +20,18 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
-import org.springframework.security.oauth2.provider.endpoint.TokenEndpoint;
+import org.springframework.security.oauth2.provider.error.WebResponseExceptionTranslator;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
-import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
 
-import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 
 /** 
-* @Description: 
+* @Description: SecurityConfig
 * @param:
 * @return: 
 * @author: fanjc
@@ -55,15 +51,15 @@ public class OAuthSecurityConfig extends AuthorizationServerConfigurerAdapter {
     @Autowired
     private TokenStore tokenStore;
 
-
     @Autowired
     private ClientDetailsService clientDetailsService;
 
     @Autowired
-    private TokenEndpoint tokenEndpoint;
+    private WebResponseExceptionTranslator JiheOAuth2WebResponseExceptionTranslator;
 
 
     static final Logger logger = LoggerFactory.getLogger(OAuthSecurityConfig.class);
+
 
     @Bean
     public TokenStore tokenStore() {
@@ -85,12 +81,26 @@ public class OAuthSecurityConfig extends AuthorizationServerConfigurerAdapter {
         return converter;
     }
 
-    @Bean // 声明 ClientDetails实现
+    /**
+    * @Description: 声明JDBCClientDetails实现
+    * @param:
+    * @return:
+    * @author: fanjc
+    * @Date: 2019/3/13
+    */
+    @Bean
     public ClientDetailsService clientDetailsService() {
         return new JdbcClientDetailsService(dataSource);
     }
 
 
+    /**
+    * @Description: 注入clientDetailsService
+    * @param:
+    * @return:
+    * @author: fanjc
+    * @Date: 2019/3/13
+    */
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         String finalSecret = "++++++" + new BCryptPasswordEncoder().encode("123456");
@@ -101,7 +111,13 @@ public class OAuthSecurityConfig extends AuthorizationServerConfigurerAdapter {
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-        endpoints.tokenStore(tokenStore).tokenEnhancer(jwtAccessTokenConverter()).authenticationManager(authenticationManager);
+        endpoints.tokenStore(tokenStore)
+                .tokenEnhancer(jwtAccessTokenConverter())
+                .authenticationManager(authenticationManager)
+                //支持GET方法
+                .allowedTokenEndpointRequestMethods(HttpMethod.POST,HttpMethod.GET)
+                //自定义错误接口实现类
+                .exceptionTranslator(JiheOAuth2WebResponseExceptionTranslator);
 
         // 配置tokenServices参数
         DefaultTokenServices tokenServices = new DefaultTokenServices();
@@ -109,7 +125,7 @@ public class OAuthSecurityConfig extends AuthorizationServerConfigurerAdapter {
         tokenServices.setSupportRefreshToken(false);
         tokenServices.setClientDetailsService(endpoints.getClientDetailsService());
         tokenServices.setTokenEnhancer(endpoints.getTokenEnhancer());
-        tokenServices.setAccessTokenValiditySeconds((int)TimeUnit.DAYS.toSeconds(30)); // 30天
+//        tokenServices.setAccessTokenValiditySeconds((int)TimeUnit.DAYS.toSeconds(30)); // 30天
         endpoints.tokenServices(tokenServices);
     }
 
@@ -119,20 +135,10 @@ public class OAuthSecurityConfig extends AuthorizationServerConfigurerAdapter {
         security.allowFormAuthenticationForClients()
                 .tokenKeyAccess("permitAll()")
                 .checkTokenAccess("isAuthenticated()")
-                .passwordEncoder(new BCryptPasswordEncoder());  // client_secret用BCrypt加密
+                //client_secret用BCrypt方式加密
+                .passwordEncoder(new BCryptPasswordEncoder())
+                .addTokenEndpointAuthenticationFilter(new JiheBasicAuthenticationFilter());
+;
     }
 
-   /**
-   * @Description: 获取token时接受get方式
-   * @param:
-   * @return:
-   * @author: fanjc
-   * @Date: 2019/3/12
-   */
-    @PostConstruct
-    public void reconfigure() {
-        Set<HttpMethod> allowedMethods =
-                new HashSet<>(Arrays.asList(HttpMethod.GET, HttpMethod.POST));
-        tokenEndpoint.setAllowedRequestMethods(allowedMethods);
-    }
 }

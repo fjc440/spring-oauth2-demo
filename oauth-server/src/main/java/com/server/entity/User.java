@@ -1,5 +1,6 @@
-package com.service.auth.serviceauth.entity;
+package com.server.entity;
 
+import com.server.entity.Role;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 

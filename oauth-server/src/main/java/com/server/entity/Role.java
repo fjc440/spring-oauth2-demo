@@ -1,4 +1,4 @@
-package com.service.auth.serviceauth.entity;
+package com.server.entity;
 
 import org.springframework.security.core.GrantedAuthority;
 
