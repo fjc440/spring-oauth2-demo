@@ -1,0 +1,34 @@
+spring:
+  application:
+    name: oauth-server
+
+  datasource:
+      driver-class-name: com.mysql.jdbc.Driver
+      url: jdbc:mysql://121.42.238.128/oauth2?useUnicode=true&characterEncoding=utf8&characterSetResults=utf8
+      username: hotel
+      password: internet
+
+#  jpa:
+#    hibernate:
+#      ddl-auto: update
+#    show-sql: true
+
+
+server:
+  port: 8882
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8881//eureka/
+security:
+  oauth2:
+    resource:
+      id: oauth-server
+#使用spring-security的拦截器
+#security:
+#  oauth2:
+#    resource:
+#      filter-order: 3
+
+
+#logging.level.org.springframework.security: DEBUG
