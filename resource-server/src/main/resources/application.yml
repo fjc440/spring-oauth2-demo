@@ -1,0 +1,29 @@
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8881/eureka/
+server:
+  port: 8883
+spring:
+  application:
+    name: resource-server
+  datasource:
+      driver-class-name: com.mysql.jdbc.Driver
+      url: jdbc:mysql://121.42.238.128/jihex_share?useUnicode=true&characterEncoding=utf8&autoReconnect=true&failOverReadOnly=false
+      username: 123
+      password: 12345
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+security:
+  oauth2:
+    resource:
+      jwt:
+        key-uri: http://localhost:8882/oauth/token_key
+
+
+
+
